@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import AbsoluteLoader from "../components/AbsoluteLoader";
-import Auth, { AuthResponse } from "../utils/auth";
+import { useAppDispatch } from "../store";
+import { AuthResponse, fromRequest as authFromRequest } from "../store/auth";
 
 const Register = () => {
+  const appDispatch = useAppDispatch();
+
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [enabled, setEnabled] = useState<boolean>(true);
@@ -22,11 +25,12 @@ const Register = () => {
     })
       .then(res => res.json())
       .then((userDetails: AuthResponse) => {
-        Auth.fromResponse = userDetails;
+        appDispatch(authFromRequest(userDetails));
         console.log(userDetails);
       })
       .catch(err => {
         console.error(err);
+        appDispatch(authFromRequest(null));
       })
       .finally(() => {
         setEnabled(true);

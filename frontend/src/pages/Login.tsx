@@ -1,15 +1,20 @@
+import React from 'react';
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import AbsoluteLoader from "../components/AbsoluteLoader";
-import Auth, { AuthResponse } from "../utils/auth";
+import { useAppDispatch } from "../store";
+import { AuthResponse, fromRequest as authFromRequest } from "../store/auth";
 
 const Login = () => {
+  const appDispatch = useAppDispatch();
+
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [enabled, setEnabled] = useState<boolean>(true);
 
   const login = () => {
     setEnabled(false);
+
     fetch('http://localhost:8080/auth/login', {
       method: 'POST',
       headers: {
@@ -22,11 +27,11 @@ const Login = () => {
     })
       .then(res => res.json())
       .then((userDetails: AuthResponse) => {
-        Auth.fromResponse = userDetails;
-        console.log(userDetails);
+        appDispatch(authFromRequest(userDetails));
       })
       .catch(err => {
         console.error(err);
+        appDispatch(authFromRequest(null));
       })
       .finally(() => {
         setEnabled(true);
