@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  foodpanda:
+    image: mysql
+    container_name: foodpanda_db
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - SYS_NICE
+    volumes:
+      - dbdata:/var/lib/mysql
+volumes:
+  dbdata:
