@@ -29,10 +29,10 @@ const MainNav = () => {
             }
           </div>
 
-          { auth.token && auth.user?.isAdmin &&
+          { auth.token && auth.user?.admin &&
             <AdminNav />
           }
-          { auth.token && !auth.user?.isAdmin &&
+          { auth.token && !auth.user?.admin &&
             <UserNav />
           }
 

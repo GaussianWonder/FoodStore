@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import IconBread from "../icons/IconBread";
 import IconFork from "../icons/IconFork";
+import IconMenu from "../icons/IconMenu";
 
 const UserBanner = () => {
   return (
@@ -60,7 +60,7 @@ const UserBanner = () => {
               className="block p-4 border border-gray-100 shadow-sm rounded-xl focus:outline-none focus:ring hover:border-gray-200 hover:ring-1 hover:ring-gray-200"
               to="/orders"
             >
-              <IconBread />
+              <IconMenu />
 
               <h6 className="mt-2 font-bold">Orders</h6>
 

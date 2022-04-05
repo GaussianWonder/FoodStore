@@ -1,6 +1,7 @@
 package com.gaussianwonder.foodpanda.auth;
 
 import com.gaussianwonder.foodpanda.auth.dto.AuthDto;
+import com.gaussianwonder.foodpanda.auth.dto.AuthRegisterDto;
 import com.gaussianwonder.foodpanda.auth.dto.AuthResponseDto;
 import com.gaussianwonder.foodpanda.models.user.User;
 import com.gaussianwonder.foodpanda.models.user.UserService;
@@ -25,13 +26,13 @@ public class AuthApi {
     }
 
     @PostMapping("/register")
-    public AuthResponseDto register(@RequestBody AuthDto loginDto) {
-        User user = new User(loginDto.getUsername(), loginDto.getPassword());
+    public AuthResponseDto register(@RequestBody AuthRegisterDto registerDto) {
+        User user = new User(registerDto.getUsername(), registerDto.getPassword(), registerDto.isRestaurantOwner());
         service.save(user);
 
         Optional<String> token = auth.login(
-                loginDto.getUsername(),
-                loginDto.getPassword()
+                registerDto.getUsername(),
+                registerDto.getPassword()
         );
 
         if (token.isEmpty()) {

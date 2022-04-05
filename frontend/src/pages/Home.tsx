@@ -13,7 +13,7 @@ const Home = () => {
     );
   }
 
-  if (auth.user?.isAdmin) {
+  if (auth.user?.admin) {
     return (
       <AdminBanner />
     );

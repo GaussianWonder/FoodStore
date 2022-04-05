@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import IconBread from "../icons/IconBread";
 import IconFork from "../icons/IconFork";
+import IconMenu from "../icons/IconMenu";
 
 const AdminBanner = () => {
   return (
@@ -21,7 +22,7 @@ const AdminBanner = () => {
 
             <Link
               className="inline-flex items-center px-8 py-3 mt-8 text-white bg-indigo-600 border border-indigo-600 rounded hover:bg-transparent hover:text-indigo-600 active:text-indigo-500 focus:outline-none focus:ring"
-              to="/restaurant"
+              to="/my-restaurant"
             >
               <span className="text-sm font-medium"> Get Started </span>
 
@@ -73,7 +74,7 @@ const AdminBanner = () => {
               className="block p-4 border border-gray-100 shadow-sm rounded-xl focus:outline-none focus:ring hover:border-gray-200 hover:ring-1 hover:ring-gray-200"
               to="/my-orders"
             >
-              <IconFork />
+              <IconMenu />
 
               <h6 className="mt-2 font-bold">Orders</h6>
 

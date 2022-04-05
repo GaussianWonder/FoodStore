@@ -34,7 +34,7 @@ export const authStateFromResponse = (response: AuthResponse | null): AuthState 
   return {
     user: {
       username: response.username,
-      isAdmin: response.isAdmin,
+      admin: response.admin,
     },
     token: response.token,
   };
@@ -42,7 +42,7 @@ export const authStateFromResponse = (response: AuthResponse | null): AuthState 
 
 export interface User {
   username: string;
-  isAdmin: boolean;
+  admin: boolean;
   // ... not of interest
 }
 

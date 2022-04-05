@@ -10,6 +10,7 @@ const Register = () => {
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isRestaurantOwner, setIsRestaurantOwner] = useState<boolean>(false);
   const [enabled, setEnabled] = useState<boolean>(true);
 
   const register = () => {
@@ -22,6 +23,7 @@ const Register = () => {
       body: JSON.stringify({
         username: username,
         password: password,
+        restaurantOwner: isRestaurantOwner,
       }),
     })
       .then(res => res.json())
@@ -118,6 +120,23 @@ const Register = () => {
               </svg>
             </span>
           </div>
+        </div>
+
+        <div className="flex items-center py-3">
+          <input
+            id="isRestaurantOwner"
+            type="checkbox"
+            name="isRestaurantOwner"
+            className="w-5 h-5 border-gray-300 rounded"
+            onChange={(e) => setIsRestaurantOwner(e.target.checked)}
+          />
+
+          <label
+            htmlFor="isRestaurantOwner"
+            className="ml-3 text-sm font-medium text-gray-500"
+          >
+            Restaurant owner
+          </label>
         </div>
 
         <div className="flex items-center justify-between">
