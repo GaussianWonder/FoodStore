@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import AbsoluteLoader from "../components/AbsoluteLoader";
+import AbsoluteLoader from "../components/loader/AbsoluteLoader";
 import { useAppDispatch } from "../store";
 import { AuthResponse, fromRequest as authFromRequest } from "../store/auth";
 
