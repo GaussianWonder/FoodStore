@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AbsoluteLoader from "../components/loader/AbsoluteLoader";
 import { useAppDispatch } from "../store";
-import { AuthResponse, fromRequest as authFromRequest } from "../store/auth";
+import { AuthResponse, fromRequest as authFromRequest, authStateFromResponse, persistAuth, removePersistedAuth } from "../store/auth";
 
 const Login = () => {
   const appDispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -27,10 +28,13 @@ const Login = () => {
       .then(res => res.json())
       .then((userDetails: AuthResponse) => {
         appDispatch(authFromRequest(userDetails));
+        persistAuth(authStateFromResponse(userDetails));
+        navigate('/');
       })
       .catch(err => {
         console.error(err);
         appDispatch(authFromRequest(null));
+        removePersistedAuth();
       })
       .finally(() => {
         setEnabled(true);

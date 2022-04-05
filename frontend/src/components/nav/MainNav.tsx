@@ -1,8 +1,19 @@
-import { Link} from 'react-router-dom';
-import { useAuthSelector } from '../../store';
+import { Link, useNavigate} from 'react-router-dom';
+import { useAppDispatch, useAuthSelector } from '../../store';
+import AdminNav from './AdminNav';
+import UserNav from './UserNav';
+import { fromRequest as authFromRequest, removePersistedAuth } from "../../store/auth";
 
 const MainNav = () => {
   const auth = useAuthSelector();
+  const navigate = useNavigate();
+  const appDispatch = useAppDispatch();
+
+  const logout = () => {
+    appDispatch(authFromRequest(null));
+    removePersistedAuth();
+    navigate('/');
+  }
 
   return (
     <header className="shadow-sm sticky top-0 bg-white z-30">
@@ -10,20 +21,21 @@ const MainNav = () => {
         <div className="flex items-center justify-between space-x-4 lg:space-x-10">
           <div className="flex lg:w-0 lg:flex-1">
             { auth.token &&
-              <span className="px-5 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg flex items-center justify-center">
+              <Link to="/" className="px-5 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg flex items-center justify-center select-none cursor-pointer">
                 <span>
                   { auth.user?.username ?? '' }
                 </span>
-              </span>
+              </Link>
             }
           </div>
 
-          { auth.token &&
-            <nav className="hidden space-x-8 text-sm font-medium md:flex">
-              <a className="text-gray-500" href="#">About</a>
-              <a className="text-gray-500" href="#">Contact</a>
-            </nav>
+          { auth.token && auth.user?.isAdmin &&
+            <AdminNav />
           }
+          { auth.token && !auth.user?.isAdmin &&
+            <UserNav />
+          }
+
           { !auth.token &&
             <nav className="hidden space-x-8 text-sm font-medium md:flex">
               <span className="text-gray-500">Please authenticate to continue!</span>
@@ -49,8 +61,11 @@ const MainNav = () => {
           }
           { auth.token &&
             <div className="items-center justify-end flex-1 hidden space-x-4 sm:flex">
-              <span className="px-5 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-lg">
-                Logout?
+              <span
+                className="px-5 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-lg cursor-pointer select-none"
+                onClick={logout}
+              >
+                Logout
               </span>
             </div>
           }
