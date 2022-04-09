@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "restaurants")
 public class Restaurant {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
     @Column(nullable = false) String name;
 

@@ -11,7 +11,7 @@ import javax.annotation.security.RolesAllowed;
 @RestController
 @RequestMapping
 public class UserController {
-    UserService service;
+    final UserService service;
 
     @Autowired
     public UserController(

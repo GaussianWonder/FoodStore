@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
