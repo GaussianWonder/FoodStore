@@ -48,7 +48,7 @@ const Login = () => {
           display: {
             title: 'Login',
             message: 'Login failed. Missmatched credentials.',
-            code: 200,
+            code: 401,
             date: new Date(),
           },
         }));

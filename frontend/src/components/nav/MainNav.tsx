@@ -3,6 +3,7 @@ import { useAppDispatch, useAuthSelector } from '../../store';
 import AdminNav from './AdminNav';
 import UserNav from './UserNav';
 import { fromRequest as authFromRequest, removePersistedAuth } from "../../store/auth";
+import { newNotification } from '../../store/notification';
 
 const MainNav = () => {
   const auth = useAuthSelector();
@@ -12,6 +13,15 @@ const MainNav = () => {
   const logout = () => {
     appDispatch(authFromRequest(null));
     removePersistedAuth();
+    appDispatch(newNotification({
+      id: 'logout',
+      display: {
+        title: 'Logout',
+        message: 'Login again to access the application.',
+        code: 1,
+        date: new Date(),
+      },
+    }));
     navigate('/');
   }
 

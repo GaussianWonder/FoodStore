@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AbsoluteLoader from "../components/loader/AbsoluteLoader";
 import { useAppDispatch } from "../store";
 import { AuthResponse, fromRequest as authFromRequest, authStateFromResponse, persistAuth, removePersistedAuth } from "../store/auth";
+import { newNotification } from "../store/notification";
 
 const Register = () => {
   const appDispatch = useAppDispatch();
@@ -30,11 +31,29 @@ const Register = () => {
       .then((userDetails: AuthResponse) => {
         appDispatch(authFromRequest(userDetails));
         persistAuth(authStateFromResponse(userDetails));
+        appDispatch(newNotification({
+          id: 'register',
+          display: {
+            title: 'Register',
+            message: 'You have registered successfully.',
+            code: 200,
+            date: new Date(),
+          },
+        }));
         navigate('/');
       })
       .catch(err => {
         console.error(err);
         appDispatch(authFromRequest(null));
+        appDispatch(newNotification({
+          id: 'register',
+          display: {
+            title: 'Register',
+            message: 'Register failed. Check your credentials.',
+            code: 401,
+            date: new Date(),
+          },
+        }));
         removePersistedAuth();
       })
       .finally(() => {
