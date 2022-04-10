@@ -7,6 +7,8 @@ import com.gaussianwonder.foodpanda.util.Hash;
 import com.google.common.collect.ImmutableMap;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,7 +32,9 @@ public class AuthService implements TokenAuth {
         return userRepo
                 .findByUsername(username)
                 .filter(user -> Hash.bcryptMatch(password, user.getPassword()))
-                .map(user -> tokenService.newToken(ImmutableMap.of("username", username)));
+                .map(user -> tokenService.newToken(
+                        ImmutableMap.of("username", username, "id", user.getId().toString())
+                ));
     }
 
     @Override
@@ -44,5 +48,24 @@ public class AuthService implements TokenAuth {
     @Override
     public void logout(final User user) {
         // TODO invalidate user session data (which do not currently exist)
+    }
+
+    public static Optional<User> getAuthed() {
+        try {
+            Authentication authentication = SecurityContextHolder
+                    .getContext()
+                    .getAuthentication();
+            Object principal = authentication.getPrincipal();
+            if (authentication.isAuthenticated() && principal instanceof User) {
+                return Optional.of((User) principal);
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<Long> getAuthedId() {
+        return getAuthed().map(User::getId);
     }
 }

@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import AbsoluteLoader from "../components/loader/AbsoluteLoader";
 import { useAppDispatch } from "../store";
 import { AuthResponse, fromRequest as authFromRequest, authStateFromResponse, persistAuth, removePersistedAuth } from "../store/auth";
-import { newNotification } from "../store/notification";
+import { errorNotification, newNotification } from "../store/notification";
+import { expectJson, ResponseError } from "../utils/promise";
 
 const Login = () => {
   const appDispatch = useAppDispatch();
@@ -26,7 +27,7 @@ const Login = () => {
         password: password,
       }),
     })
-      .then(res => res.json())
+      .then(expectJson)
       .then((userDetails: AuthResponse) => {
         appDispatch(authFromRequest(userDetails));
         persistAuth(authStateFromResponse(userDetails));
@@ -41,16 +42,13 @@ const Login = () => {
         }));
         navigate('/');
       })
-      .catch(() => {
+      .catch((error: ResponseError) => {
         appDispatch(authFromRequest(null));
-        appDispatch(newNotification({
+        appDispatch(errorNotification({
+          error,
           id: 'login',
-          display: {
-            title: 'Login',
-            message: 'Login failed. Missmatched credentials.',
-            code: 401,
-            date: new Date(),
-          },
+          title: 'Login',
+          message: 'Login failed. Missmatched credentials.',
         }));
         removePersistedAuth();
       })

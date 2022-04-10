@@ -6,8 +6,11 @@ import com.gaussianwonder.foodpanda.auth.dto.AuthResponseDto;
 import com.gaussianwonder.foodpanda.models.user.User;
 import com.gaussianwonder.foodpanda.models.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -26,7 +29,7 @@ public class AuthApi {
     }
 
     @PostMapping("/register")
-    public AuthResponseDto register(@RequestBody AuthRegisterDto registerDto) {
+    public ResponseEntity<AuthResponseDto> register(@Valid @RequestBody AuthRegisterDto registerDto) {
         User user = new User(registerDto.getUsername(), registerDto.getPassword(), registerDto.isRestaurantOwner());
         service.save(user);
 
@@ -36,30 +39,30 @@ public class AuthApi {
         );
 
         if (token.isEmpty()) {
-            throw new RuntimeException("invalid login and/or password");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
-        return new AuthResponseDto(user, token.get());
+        return new ResponseEntity<>(new AuthResponseDto(user, token.get()), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public AuthResponseDto login(@RequestBody AuthDto loginDto) {
+    public ResponseEntity<AuthResponseDto> login(@Valid @RequestBody AuthDto loginDto) {
         Optional<String> token = auth.login(
                 loginDto.getUsername(),
                 loginDto.getPassword()
         );
 
         if (token.isEmpty()) {
-            throw new RuntimeException("invalid login and/or password");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
         Optional<User> user = service.findByUsername(loginDto.getUsername());
 
         if (user.isEmpty()) {
-            throw new RuntimeException("cannot find the given user");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
-        return new AuthResponseDto(user.get(), token.get());
+        return new ResponseEntity<>(new AuthResponseDto(user.get(), token.get()), HttpStatus.ACCEPTED);
     }
 
     // TODO once sessions exist, add POST and GET mappings for logout
