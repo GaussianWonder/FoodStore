@@ -10,7 +10,8 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
@@ -24,13 +25,55 @@ public class Order {
     )
     List<Food> foodList;
 
-    @Column(nullable = false) Double price;
+    @Column(nullable = false)
+    Double price;
 
-    @Column(nullable = false) Date date;
+    @Column(nullable = false)
+    Date date;
 
     public Order() {}
     public Order(Double price, Date date) {
         this.price = price;
+        this.date = date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Food> getFoodList() {
+        return foodList;
+    }
+
+    public void setFoodList(List<Food> foodList) {
+        this.foodList = foodList;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
         this.date = date;
     }
 }

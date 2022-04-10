@@ -1,64 +1,21 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
 import AbsoluteLoader from "../../components/loader/AbsoluteLoader";
-import { useAppDispatch, useAuthSelector, useNotificationSelector } from "../../store";
-import { errorNotification, newNotification } from "../../store/notification";
+import useHasRestaurant from "../../hooks/admin/useHasRestaurant";
+import { useAppDispatch, useAuthSelector } from "../../store";
+import { errorNotification } from "../../store/notification";
 import { expectJson, ResponseError } from "../../utils/promise";
-
-interface Food {
-  id: number;
-}
-
-interface Restaurant {
-  id: number;
-  name: string;
-  foodList: Food[];
-  // user field can be ignored
-}
 
 const MyRestaurant = () => {
   const appDispatch = useAppDispatch();
   const auth = useAuthSelector();
-  const notifications = useNotificationSelector();
-  const navigate = useNavigate();
 
   const restaurantNameInput = useRef<HTMLInputElement | null>(null);
   const [enabled, setEnabled] = useState<boolean>(true);
-  const [restaurant, setRestaurant] = useState<Restaurant | null>();
   const [restaurantName, setRestaurantName] = useState<string>("");
-
-  const fetchRestaurant = () => {
-    setEnabled(false);
-
-    fetch(`http://localhost:8080/admin/restaurant`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${auth.token}`,
-      },
-    })
-      .then(expectJson)
-      .then((restaurant: Restaurant) => {
-        setRestaurant(restaurant);
-        if (restaurantNameInput.current) {
-          restaurantNameInput.current.value = restaurant.name;
-          setRestaurantName(restaurant.name);
-        }
-      })
-      .catch((error: ResponseError) => {
-        appDispatch(errorNotification({
-          error,
-          id: 'my-restaurant',
-          title: 'My Restaurant',
-          message: 'There is no restaurant created for your account.',
-        }));
-        setRestaurant(null);
-      })
-      .finally(() => {
-        setEnabled(true);
-      });
-  }
+  const {
+    subject: [restaurant, setRestaurant],
+    isLoading: isRestaurantLoading,
+  } = useHasRestaurant();
 
   const createRestaurant = () => {
     fetch(`http://localhost:8080/admin/restaurant`, {
@@ -113,13 +70,9 @@ const MyRestaurant = () => {
       });
   }
 
-  useEffect(() => {
-    fetchRestaurant();
-  }, []);
-
   return (
     <div className="relative max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
-      <AbsoluteLoader enabled={!enabled} />
+      <AbsoluteLoader enabled={!enabled || isRestaurantLoading} />
       <div className="max-w-lg mx-auto text-center">
         <h1 className="text-2xl font-bold sm:text-3xl">
           {restaurant ? restaurant.name : 'Create your restaurant'}
@@ -142,7 +95,7 @@ const MyRestaurant = () => {
               className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm disabled:opacity-30"
               placeholder="Enter restaurant name"
               onChange={(e) => setRestaurantName(e.target.value)}
-              disabled={!enabled}
+              disabled={!enabled || isRestaurantLoading}
             />
 
             <span className="absolute inset-y-0 inline-flex items-center right-4">
@@ -170,7 +123,7 @@ const MyRestaurant = () => {
           <button
             className="inline-block px-5 py-3 ml-3 text-sm font-medium text-white bg-blue-500 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed"
             onClick={restaurant ? updateRestaurant : createRestaurant}
-            disabled={!enabled || !restaurantName}
+            disabled={!enabled || !restaurantName || isRestaurantLoading}
           >
             { restaurant ? 'Update' : 'Create' } restaurant
           </button>

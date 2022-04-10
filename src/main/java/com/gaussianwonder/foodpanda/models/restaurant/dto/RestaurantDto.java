@@ -1,7 +1,5 @@
 package com.gaussianwonder.foodpanda.models.restaurant.dto;
 
-import com.gaussianwonder.foodpanda.models.restaurant.Restaurant;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 

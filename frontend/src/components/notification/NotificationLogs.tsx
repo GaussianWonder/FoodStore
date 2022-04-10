@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import useDetectRightEdge from "../../hooks/onRightEdge";
+import useDetectRightEdge from "../../hooks/useDetectRightEdge";
 import { useNotificationSelector } from "../../store";
 import { Notification as StoreNotification } from "../../store/notification";
 import IconBell from "../icons/IconBell";

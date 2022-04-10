@@ -4,6 +4,7 @@ import com.gaussianwonder.foodpanda.models.food.Food;
 import com.gaussianwonder.foodpanda.models.user.User;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ public class Restaurant {
     User user;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    List<Food> foodList;
+    List<Food> foodList = Collections.emptyList();
 
     public Restaurant() {}
     public Restaurant(String name) {
