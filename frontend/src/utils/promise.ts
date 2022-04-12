@@ -16,12 +16,24 @@ export const maybeJson = (text: string): Record<string, any> | null => {
   } catch (e) {
     return null;
   }
-}
+};
 
 export const maybeText = async (response: Response) => {
   const text = await response.text();
   return text;
-}
+};
+
+export const expectOk = async (response: Response): Promise<void> => {
+  if (!response.ok) {
+    throw {
+      name: 'Response error!',
+      message: 'Response did not end with status ok!',
+      response: response,
+      text: 'Request failed!',
+      json: null,
+    } as ResponseError;
+  }
+};
 
 export const expectJson = async (response: Response) => {
   if (!response.ok) {
@@ -35,13 +47,15 @@ export const expectJson = async (response: Response) => {
     } as ResponseError;
   }
   return response.json();
-}
+};
 
-export const expectObject = async <T> (response: Response) => {
+export const expectObject = async <T>(response: Response) => {
   return expectJson(response) as Promise<T>;
-}
+};
 
-export const errorMessages = (body: ResponseError["json"]): string | null => {
+export const errorMessages = (body: ResponseError['json']): string | null => {
   if (!body) return null;
-  return Object.values(body).map(value => value.toString()).join("\n");
-}
+  return Object.values(body)
+    .map((value) => value.toString())
+    .join('\n');
+};
