@@ -21,7 +21,7 @@ const useFoodsOf = ({ id }: UseFoodOfHook) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth.token}`,
+            Authorization: `Bearer ${auth.token}`,
           },
         },
         resolver: expectObject,

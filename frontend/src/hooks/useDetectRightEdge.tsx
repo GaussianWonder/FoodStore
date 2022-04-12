@@ -6,7 +6,7 @@ const useDetectRightEdge = (initialState: boolean = false, fraction: number = 0.
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
       const { screenX } = e;
-      const { clientWidth } = document.body; 
+      const { clientWidth } = document.body;
 
       setIsActive(screenX >= clientWidth - fraction * clientWidth);
     };

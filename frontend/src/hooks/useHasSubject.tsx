@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { expectJson, ResponseResolver } from "../utils/promise";
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { expectJson, ResponseResolver } from '../utils/promise';
 
 // eslint-disable-next-line no-unused-vars
 export type Mapper<T, U> = (t: T) => U;
@@ -8,7 +8,7 @@ export function forwardMapper<T>(t: T): T {
   return t;
 }
 
-export interface UseHasSubjectProps<T, U=T> {
+export interface UseHasSubjectProps<T, U = T> {
   resource: string;
   options?: RequestInit;
   resolver: ResponseResolver<T>;
@@ -18,13 +18,13 @@ export interface UseHasSubjectProps<T, U=T> {
 export interface UseHasSubjectReturn<U> {
   has: [boolean, Dispatch<SetStateAction<boolean>>];
   subject: [U | null, Dispatch<SetStateAction<U | null>>];
-  isLoading: boolean,
+  isLoading: boolean;
 }
 
 // eslint-disable-next-line no-unused-vars
-export type UseHasSubjectHook<T, U=T> = (opts: UseHasSubjectProps<T, U>) => UseHasSubjectReturn<U>;
+export type UseHasSubjectHook<T, U = T> = (opts: UseHasSubjectProps<T, U>) => UseHasSubjectReturn<U>;
 
-const useHasSubject = <T, U> (opts?: UseHasSubjectProps<T, U> | null) => {
+const useHasSubject = <T, U>(opts?: UseHasSubjectProps<T, U> | null) => {
   const { resource, options, resolver, mapper } = opts || {
     resource: '',
     resolver: expectJson,
@@ -39,17 +39,17 @@ const useHasSubject = <T, U> (opts?: UseHasSubjectProps<T, U> | null) => {
     setHasSubject(true);
     setSubject(mapper(rawSubject));
     setIsLoading(false);
-  }
+  };
 
   const unsetSubject = () => {
     setHasSubject(false);
     setSubject(null);
     setIsLoading(false);
-  }
+  };
 
   const fetchSubject = () => {
     if (!opts) return () => {};
- 
+
     setIsLoading(true);
     const controller = new AbortController();
     const { signal } = controller;
@@ -66,10 +66,10 @@ const useHasSubject = <T, U> (opts?: UseHasSubjectProps<T, U> | null) => {
       controller.abort();
       setIsLoading(false);
     };
-  }
+  };
 
   // useEffect(fetchSubject, []);
-  useEffect(fetchSubject, [resource, options]);
+  useMemo(fetchSubject, [resource, options]);
   // Resolver and mapper should stay static. There is no need for such dynamic and dramatic effects.
 
   return {
@@ -77,6 +77,6 @@ const useHasSubject = <T, U> (opts?: UseHasSubjectProps<T, U> | null) => {
     subject: [subject, setSubject] as const,
     isLoading,
   };
-}
+};
 
 export default useHasSubject;

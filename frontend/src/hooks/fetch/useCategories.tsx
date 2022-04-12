@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useAuthSelector } from '../../store';
-import Restaurant from '../../types/restaurant';
+import Category from '../../types/category';
 import { expectObject } from '../../utils/promise';
 import useHasSubject, { forwardMapper, UseHasSubjectProps } from '../useHasSubject';
 
-const useHasRestaurant = () => {
+const useCategories = () => {
   const auth = useAuthSelector();
-  const [opts, setOpts] = useState<UseHasSubjectProps<Restaurant>>({
-    resource: 'http://localhost:8080/admin/restaurant',
+  const [opts, setOpts] = useState<UseHasSubjectProps<Category[]>>({
+    resource: 'http://localhost:8080/categories',
     options: {
       method: 'GET',
       headers: {
@@ -18,11 +18,12 @@ const useHasRestaurant = () => {
     resolver: expectObject,
     mapper: forwardMapper,
   });
+  const subjectFetch = useHasSubject(opts);
 
   return {
-    ...useHasSubject(opts),
+    ...subjectFetch,
     opts: [opts, setOpts] as const,
   };
 };
 
-export default useHasRestaurant;
+export default useCategories;
