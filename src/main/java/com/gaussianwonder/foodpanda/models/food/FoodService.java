@@ -31,6 +31,14 @@ public class FoodService {
         this.categoryService = categoryService;
     }
 
+    public Optional<Food> findById(Long id) {
+        return this.foodRepo.findById(id);
+    }
+
+    public List<Food> findByIds(List<Long> ids) {
+        return this.foodRepo.findAllById(ids);
+    }
+
     public List<Food> of(Long restaurantId) {
         return this.foodRepo.findFoodsByRestaurant_Id(restaurantId);
     }

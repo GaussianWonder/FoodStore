@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useParams } from 'react-router-dom';
 import AbsoluteLoader from '../../components/loader/AbsoluteLoader';
 import Food from '../../components/restaurant/Food';
 import useFoodsOf from '../../hooks/fetch/useFoodsOf';
+import { useAuthSelector } from '../../store';
 
 const toInteger = (str: string | null | undefined): number | undefined => {
   if (!str) return undefined;
@@ -13,6 +15,8 @@ const toInteger = (str: string | null | undefined): number | undefined => {
 }
 
 const Foods = () => {
+  const auth = useAuthSelector();
+
   const params = useParams<{
     restaurantId: string
   }>();
@@ -31,6 +35,10 @@ const Foods = () => {
     return (<span>Error</span>);
   }
 
+  const placeOrder = (foodId: number) => {
+    auth.user?.username;
+  }
+
   return (
     <div className="relative max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
       <AbsoluteLoader enabled={areFoodsLoading} />
@@ -44,7 +52,8 @@ const Foods = () => {
         {foods?.map(({ id, name, description, price, category }) => (
           <div
             key={`food-${id}`}
-            className="place-self-center w-full h-full max-w-md mx-auto flex items-center justify-center"
+            className="place-self-center w-full h-full max-w-md mx-auto flex items-center justify-center cursor-pointer transform hover:scale-[101%] transition-all"
+            onClick={() => placeOrder(id)}
           >
             <Food
               id={id}

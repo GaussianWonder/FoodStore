@@ -4,13 +4,16 @@ import com.gaussianwonder.foodpanda.models.food.Food;
 import com.gaussianwonder.foodpanda.models.user.User;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Entity
 @Table(name = "orders")
 public class Order {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne()
@@ -23,7 +26,7 @@ public class Order {
             joinColumns = { @JoinColumn(name = "order_id") },
             inverseJoinColumns = { @JoinColumn(name = "food_id") }
     )
-    List<Food> foodList;
+    List<Food> foodList = Collections.emptyList();
 
     @Column(nullable = false)
     Double price;
@@ -31,10 +34,22 @@ public class Order {
     @Column(nullable = false)
     Date date;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    OrderStatus orderStatus;
+
     public Order() {}
     public Order(Double price, Date date) {
         this.price = price;
         this.date = date;
+    }
+    public Order(List<Food> foodList) {
+        this.foodList = foodList;
+        this.date = new Date(System.currentTimeMillis());
+        AtomicReference<Double> priceSum = new AtomicReference<>(0.0);
+        foodList.forEach(food -> priceSum.updateAndGet(v -> v + food.getPrice()));
+        this.price = priceSum.get();
+        this.orderStatus = OrderStatus.PENDING;
     }
 
     public Long getId() {
@@ -75,5 +90,13 @@ public class Order {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }
