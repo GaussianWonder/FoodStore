@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @Controller
@@ -64,5 +65,14 @@ public class RestaurantController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
+    }
+
+    @RolesAllowed({"ADMIN", "USER"})
+    @GetMapping("/restaurants")
+    public ResponseEntity<List<Restaurant>> getAllRestaurants() {
+        return new ResponseEntity<>(
+                this.restaurantService.all(),
+                HttpStatus.OK
+        );
     }
 }

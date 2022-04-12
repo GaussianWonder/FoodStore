@@ -33,6 +33,7 @@ specifiers:
   react-dom: ^18.0.0
   react-is: ^18.0.0
   react-redux: ^7.2.8
+  react-router: ^6.3.0
   react-router-dom: ^6.3.0
   react-scripts: 5.0.0
   styled-components: ^5
@@ -54,6 +55,7 @@ dependencies:
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
   react-redux: 7.2.8_react-dom@18.0.0+react@18.0.0
+  react-router: 6.3.0_react@18.0.0
   react-router-dom: 6.3.0_react-dom@18.0.0+react@18.0.0
   react-scripts: 5.0.0_456106bf6aa151672f2a91827453ffb8
   styled-components: 5.3.5_1a79be909b93ec9b98501cf963be33c8

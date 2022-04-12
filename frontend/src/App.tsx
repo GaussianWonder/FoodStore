@@ -8,6 +8,7 @@ import MyRestaurant from './pages/admin/MyRestaurant';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Foods from './pages/user/Foods';
 import Orders from './pages/user/Orders';
 import Restaurants from './pages/user/Restaurants';
 
@@ -28,6 +29,8 @@ const App = () => {
 
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/orders" element={<Orders />} />
+
+          <Route path="/restaurants/:restaurantId" element={<Foods />} />
         </Routes>
       </div>
     </Router>

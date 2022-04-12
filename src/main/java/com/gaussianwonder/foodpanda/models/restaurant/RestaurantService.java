@@ -6,6 +6,7 @@ import com.gaussianwonder.foodpanda.models.restaurant.dto.UpdateRestaurantDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +18,10 @@ public class RestaurantService {
             RestaurantRepo restaurantRepo
     ) {
         this.restaurantRepo = restaurantRepo;
+    }
+
+    public List<Restaurant> all() {
+        return this.restaurantRepo.findAll();
     }
 
     public Optional<Restaurant> find(String name) {
