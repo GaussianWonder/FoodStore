@@ -1,21 +1,18 @@
-import { Link } from "react-router-dom";
-import IconFork from "../icons/IconFork";
-import IconMenu from "../icons/IconMenu";
+import { Link } from 'react-router-dom';
+import IconFork from '../icons/IconFork';
+import IconMenu from '../icons/IconMenu';
 
 const UserBanner = () => {
   return (
     <section className="relative max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
       <div className="max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-        <div
-          className="grid grid-cols-1 lg:grid-cols-2 gap-y-8 lg:gap-x-16 lg:items-center"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-8 lg:gap-x-16 lg:items-center">
           <div className="max-w-lg mx-auto text-center lg:text-left lg:mx-0">
             <h2 className="text-3xl font-bold sm:text-4xl">Check out the restaurants!</h2>
 
             <p className="mt-4 text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut vero
-              aliquid sint distinctio iure ipsum cupiditate? Quis, odit assumenda?
-              Deleniti quasi inventore, libero reiciendis minima aliquid tempora.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut vero aliquid sint distinctio iure ipsum
+              cupiditate? Quis, odit assumenda? Deleniti quasi inventore, libero reiciendis minima aliquid tempora.
               Obcaecati, autem.
             </p>
 
@@ -32,12 +29,7 @@ const UserBanner = () => {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
           </div>
@@ -51,9 +43,7 @@ const UserBanner = () => {
 
               <h6 className="mt-2 font-bold">Restaurants</h6>
 
-              <p className="hidden sm:mt-1 sm:text-sm sm:text-gray-600 sm:block">
-                Seek new restaurants.
-              </p>
+              <p className="hidden sm:mt-1 sm:text-sm sm:text-gray-600 sm:block">Seek new restaurants.</p>
             </Link>
 
             <Link
@@ -64,15 +54,13 @@ const UserBanner = () => {
 
               <h6 className="mt-2 font-bold">Orders</h6>
 
-              <p className="hidden sm:mt-1 sm:text-sm sm:text-gray-600 sm:block">
-                Check your orders.
-              </p>
+              <p className="hidden sm:mt-1 sm:text-sm sm:text-gray-600 sm:block">Check your orders.</p>
             </Link>
           </div>
         </div>
       </div>
     </section>
   );
-}
+};
 
 export default UserBanner;

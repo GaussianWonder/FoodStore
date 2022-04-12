@@ -1,26 +1,26 @@
-import React, { FunctionComponent, ReactElement } from 'react'
+import React, { FunctionComponent, ReactElement } from 'react';
 
 export type Style = {
-  [key: string]: string
-}
+  [key: string]: string;
+};
 
 export interface BaseProps {
-  height?: string | number,
-  width?: string | number,
-  color?: string,
-  ariaLabel?: string,
-  wrapperStyle?: Style,
-  wrapperClass?: string,
-  visible?: boolean
+  height?: string | number;
+  width?: string | number;
+  color?: string;
+  ariaLabel?: string;
+  wrapperStyle?: Style;
+  wrapperClass?: string;
+  visible?: boolean;
 }
 
 interface GridProps extends BaseProps {
-  radius?: string | number,
+  radius?: string | number;
 }
 
 const getDefaultStyle = (visible: boolean): Style => ({
   display: visible ? 'flex' : 'none',
-})
+});
 
 export const Grid: FunctionComponent<GridProps> = ({
   height = 80,
@@ -33,14 +33,7 @@ export const Grid: FunctionComponent<GridProps> = ({
   visible = true,
 }): ReactElement => (
   <div style={{ ...getDefaultStyle(visible), ...wrapperStyle }} className={wrapperClass} data-testid="grid-loading">
-    <svg
-      width={width}
-      height={height}
-      viewBox="0 0 105 105"
-      fill={color}
-      aria-label={ariaLabel}
-      data-testid="grid-svg"
-    >
+    <svg width={width} height={height} viewBox="0 0 105 105" fill={color} aria-label={ariaLabel} data-testid="grid-svg">
       <circle cx="12.5" cy="12.5" r={`${radius}`}>
         <animate
           attributeName="fill-opacity"
@@ -135,4 +128,4 @@ export const Grid: FunctionComponent<GridProps> = ({
   </div>
 );
 
-export default Grid
+export default Grid;

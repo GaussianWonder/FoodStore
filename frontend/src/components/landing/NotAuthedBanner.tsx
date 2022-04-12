@@ -14,6 +14,6 @@ const NotAuthedBanner = () => {
       </div>
     </section>
   );
-}
+};
 
 export default NotAuthedBanner;

@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import useDetectRightEdge from "../../hooks/useDetectRightEdge";
-import { useNotificationSelector } from "../../store";
-import { Notification as StoreNotification } from "../../store/notification";
-import IconBell from "../icons/IconBell";
-import IconX from "../icons/IconX";
-import Notification from "./Notification";
+import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import useDetectRightEdge from '../../hooks/useDetectRightEdge';
+import { useNotificationSelector } from '../../store';
+import { Notification as StoreNotification } from '../../store/notification';
+import IconBell from '../icons/IconBell';
+import IconX from '../icons/IconX';
+import Notification from './Notification';
 
 interface ContainerProps {
   isFocused: boolean;
@@ -14,10 +14,10 @@ interface ContainerProps {
 const Container = styled.div.attrs({
   className: 'w-screen h-screen top-0 fixed z-40',
 })<ContainerProps>`
-  ${props => !props.isActive && `opacity: 0; pointer-events: none;`}
-  ${props => props.isActive && `opacity: 100;`}
-  ${props => !props.isFocused && `backdrop-filter: blur(2px);`}
-  ${props => props.isFocused && `backdrop-filter: blur(5px); pointer-events: auto;`}
+  ${(props) => !props.isActive && `opacity: 0; pointer-events: none;`}
+  ${(props) => props.isActive && `opacity: 100;`}
+  ${(props) => !props.isFocused && `backdrop-filter: blur(2px);`}
+  ${(props) => props.isFocused && `backdrop-filter: blur(5px); pointer-events: auto;`}
   z-index: 42;
   transition: all 0.1s ease-in-out;
 `;
@@ -28,8 +28,8 @@ interface ToggleContainerProps {
 const ToggleContainer = styled.div.attrs({
   className: 'w-screen fixed top-10 left-0 flex flex-row-reverse',
 })<ToggleContainerProps>`
-  ${props => !props.show && `transform: translate(30px, 0px);`}
-  ${props => props.show && `transform: translate(-30px, 0px);`}
+  ${(props) => !props.show && `transform: translate(30px, 0px);`}
+  ${(props) => props.show && `transform: translate(-30px, 0px);`}
   transition: all 0.1s ease-in-out;
   z-index: 41;
 `;
@@ -47,13 +47,13 @@ const NotificationLogs = () => {
 
   const focusNotification = (index: number) => {
     setIsFocused(true);
-    setFocusedNotification(notifications.array[index])
-  }
+    setFocusedNotification(notifications.array[index]);
+  };
 
   const unfocusNotification = () => {
     setIsFocused(false);
     setFocusedNotification(null);
-  }
+  };
 
   useEffect(() => {
     unfocusNotification();
@@ -62,17 +62,11 @@ const NotificationLogs = () => {
   return (
     <div className="fixed top-0 left-0 z-40">
       <ToggleContainer show={showToggle && !isActive}>
-        <div
-          className="absolute cursor-pointer translate-y-1/2 bg-white"
-          onClick={() => setIsActive(true)}
-        >
+        <div className="absolute cursor-pointer translate-y-1/2 bg-white" onClick={() => setIsActive(true)}>
           <IconBell />
         </div>
       </ToggleContainer>
-      <Container
-        isFocused={isFocused}
-        isActive={isActive}
-      >
+      <Container isFocused={isFocused} isActive={isActive}>
         <div ref={logContainer} className="w-full absolute right-0 flex flex-row-reverse">
           {/* Log container */}
           <div className="w-2xl bg-gray-50 h-screen p-8 border border-gray-200 shadow">
@@ -88,39 +82,30 @@ const NotificationLogs = () => {
               </button>
             </div>
 
-            {
-              notifications.array.map(({ id, display: {title, message, code, date} }, index) => (
-                <div
-                  key={`notification-${id}-${index}`}
-                  onMouseEnter={() => focusNotification(index)}
-                  onMouseLeave={() => unfocusNotification()}
-                >
-                  <Notification
-                    id={id}
-                    title={title}
-                    message={message}
-                    code={code}
-                    date={date}
-                  />
-                </div>
-              ))
-            }
+            {notifications.array.map(({ id, display: { title, message, code, date } }, index) => (
+              <div
+                key={`notification-${id}-${index}`}
+                onMouseEnter={() => focusNotification(index)}
+                onMouseLeave={() => unfocusNotification()}
+              >
+                <Notification id={id} title={title} message={message} code={code} date={date} />
+              </div>
+            ))}
 
-            { !notifications.array.length &&
+            {!notifications.array.length && (
               <Notification
-                id='empty'
-                title='No notifications'
-                message='Do something to get started'
+                id="empty"
+                title="No notifications"
+                message="Do something to get started"
                 code={0}
                 date={new Date()}
                 local={true}
               />
-            }
-
+            )}
           </div>
-          { isFocused && focusedNotification &&
+          {isFocused && focusedNotification && (
             <div className="hidden md:flex flex-col items-center justify-center m-auto p-4 rounded-lg shadow border border-gray-100 bg-white">
-              <span className="text-gray-700"> { focusedNotification.display.date.toDateString() } </span>
+              <span className="text-gray-700"> {focusedNotification.display.date.toDateString()} </span>
               <Notification
                 id={focusedNotification.id}
                 title={focusedNotification.display.title}
@@ -130,11 +115,11 @@ const NotificationLogs = () => {
                 truncateText={false}
               />
             </div>
-          }
+          )}
         </div>
       </Container>
     </div>
   );
-}
+};
 
 export default NotificationLogs;
