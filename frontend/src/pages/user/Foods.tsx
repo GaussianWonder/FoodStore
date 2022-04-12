@@ -36,7 +36,7 @@ const Foods = () => {
       <AbsoluteLoader enabled={areFoodsLoading} />
       <div className="max-w-lg mx-auto text-center">
         <h1 className="text-2xl font-bold sm:text-3xl">
-          Registered restaurants
+          Foods
         </h1>
       </div>
 
