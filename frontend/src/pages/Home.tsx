@@ -9,20 +9,14 @@ const Home = () => {
   const user = auth.user;
 
   if (!user) {
-    return (
-      <NotAuthedBanner />
-    );
+    return <NotAuthedBanner />;
   }
 
   if (auth.user?.admin) {
-    return (
-      <AdminBanner />
-    );
+    return <AdminBanner />;
   } else {
-    return (
-      <UserBanner />
-    );
+    return <UserBanner />;
   }
-}
+};
 
 export default Home;

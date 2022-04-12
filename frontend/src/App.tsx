@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, BrowserRouter as Router, Route} from 'react-router-dom';
+import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 import MainNav from './components/nav/MainNav';
 import NotificationLogs from './components/notification/NotificationLogs';
 import MyFoods from './pages/admin/MyFoods';
@@ -15,7 +15,7 @@ const App = () => {
   return (
     <Router>
       <NotificationLogs />
-      <div className='w-screen h-screen z-0'>
+      <div className="w-screen h-screen z-0">
         <MainNav />
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -32,6 +32,6 @@ const App = () => {
       </div>
     </Router>
   );
-}
+};
 
 export default App;

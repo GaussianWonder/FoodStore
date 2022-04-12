@@ -1,7 +1,5 @@
 const Restaurants = () => {
-  return (
-    <span>Restaurants</span>
-  );
-}
+  return <span>Restaurants</span>;
+};
 
 export default Restaurants;

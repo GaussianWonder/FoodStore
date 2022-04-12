@@ -36,6 +36,7 @@ specifiers:
   react-router-dom: ^6.3.0
   react-scripts: 5.0.0
   styled-components: ^5
+  tailwind-scrollbar-hide: ^1.1.7
   tailwindcss: ^3.0.23
   typescript: ^4.6.3
   web-vitals: ^2.1.4
@@ -56,6 +57,7 @@ dependencies:
   react-router-dom: 6.3.0_react-dom@18.0.0+react@18.0.0
   react-scripts: 5.0.0_456106bf6aa151672f2a91827453ffb8
   styled-components: 5.3.5_1a79be909b93ec9b98501cf963be33c8
+  tailwind-scrollbar-hide: 1.1.7
   typescript: 4.6.3
   web-vitals: 2.1.4
 
@@ -8722,6 +8724,10 @@ packages:
 
   /symbol-tree/3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
+    dev: false
+
+  /tailwind-scrollbar-hide/1.1.7:
+    resolution: {integrity: sha512-X324n9OtpTmOMqEgDUEA/RgLrNfBF/jwJdctaPZDzB3mppxJk7TLIDmOreEDm1Bq4R9LSPu4Epf8VSdovNU+iA==}
     dev: false
 
   /tailwindcss/3.0.23_autoprefixer@10.4.4:
