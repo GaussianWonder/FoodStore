@@ -1,5 +1,7 @@
 package com.gaussianwonder.foodpanda.models.category;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gaussianwonder.foodpanda.models.food.Food;
 
 import javax.persistence.*;
@@ -19,7 +21,8 @@ public class Category {
     @Column(nullable = false)
     String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @JsonBackReference
     List<Food> foods = Collections.emptyList();
 
     public Category() {}

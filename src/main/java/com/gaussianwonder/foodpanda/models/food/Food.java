@@ -1,10 +1,14 @@
 package com.gaussianwonder.foodpanda.models.food;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gaussianwonder.foodpanda.models.category.Category;
 import com.gaussianwonder.foodpanda.models.order.Order;
 import com.gaussianwonder.foodpanda.models.restaurant.Restaurant;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -24,13 +28,15 @@ public class Food {
 
     @ManyToOne()
     @JoinColumn(name = "category_id")
+    @JsonManagedReference
     Category category;
 
     @ManyToMany(mappedBy = "foodList")
-    List<Order> orderList;
+    List<Order> orderList = Collections.emptyList();
 
     @ManyToOne()
     @JoinColumn(name = "restaurant_id")
+    @JsonBackReference
     Restaurant restaurant;
 
     public Food() {}

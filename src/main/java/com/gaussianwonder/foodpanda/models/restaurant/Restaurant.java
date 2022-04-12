@@ -1,5 +1,6 @@
 package com.gaussianwonder.foodpanda.models.restaurant;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gaussianwonder.foodpanda.models.food.Food;
 import com.gaussianwonder.foodpanda.models.user.User;
 
@@ -20,6 +21,7 @@ public class Restaurant {
     User user;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @JsonManagedReference
     List<Food> foodList = Collections.emptyList();
 
     public Restaurant() {}

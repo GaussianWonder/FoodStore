@@ -55,4 +55,8 @@ public class RestaurantService {
                     return restaurant;
                 });
     }
+
+    public Restaurant updateComputed(Restaurant restaurant) {
+        return this.restaurantRepo.save(restaurant);
+    }
 }
