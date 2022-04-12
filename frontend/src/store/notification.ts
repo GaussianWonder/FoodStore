@@ -1,9 +1,9 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
-import { errorMessages, ResponseError } from "../utils/promise";
+import { createAction, createReducer } from '@reduxjs/toolkit';
+import { errorMessages, ResponseError } from '../utils/promise';
 
 export const persistNotifications = (notifications: Notification[]) => {
   window.localStorage.setItem('notifications', JSON.stringify(notifications));
-}
+};
 
 export const getPersistedNotifications = (): Notification[] => {
   const rawArray = window.localStorage.getItem('notifications');
@@ -23,11 +23,11 @@ export const getPersistedNotifications = (): Notification[] => {
     console.error(e);
     return [];
   }
-}
+};
 
 export const removePersistedNotifications = () => {
   window.localStorage.removeItem('notifications');
-}
+};
 
 export interface NotificationDisplay {
   title: string;
@@ -60,18 +60,18 @@ export const errorNotification = createAction<ErrorNotificationConstructor, 'not
 export const newNotification = createAction<Notification, 'notification/new'>('notification/new');
 export const removeNotification = createAction<Notification['id'], 'notification/remove'>('notification/remove');
 
-export default createReducer(initState, (builder) => (
+export default createReducer(initState, (builder) =>
   builder
     .addCase(newNotification, (state, action) => {
       state.array = [...state.array, action.payload];
       persistNotifications(state.array);
     })
     .addCase(removeNotification, (state, action) => {
-      state.array = state.array.filter(notification => notification.id !== action.payload);
+      state.array = state.array.filter((notification) => notification.id !== action.payload);
       persistNotifications(state.array);
     })
     .addCase(errorNotification, (state, action) => {
-      const { error, id, title, message } = action.payload
+      const { error, id, title, message } = action.payload;
       const errorNotification: Notification = {
         id,
         display: {
@@ -83,5 +83,5 @@ export default createReducer(initState, (builder) => (
       };
       state.array = [...state.array, errorNotification];
       persistNotifications(state.array);
-    })
-));
+    }),
+);
