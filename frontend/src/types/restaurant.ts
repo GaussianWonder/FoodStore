@@ -1,4 +1,4 @@
-import Food from "./food";
+import Food from './food';
 
 export default interface Restaurant {
   id: number;
