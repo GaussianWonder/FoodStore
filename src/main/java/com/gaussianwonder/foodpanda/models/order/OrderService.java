@@ -1,14 +1,18 @@
 package com.gaussianwonder.foodpanda.models.order;
 
 import com.gaussianwonder.foodpanda.auth.AuthService;
+import com.gaussianwonder.foodpanda.email.Email;
 import com.gaussianwonder.foodpanda.models.food.Food;
 import com.gaussianwonder.foodpanda.models.food.FoodService;
 import com.gaussianwonder.foodpanda.models.restaurant.Restaurant;
 import com.gaussianwonder.foodpanda.models.restaurant.RestaurantService;
 import com.gaussianwonder.foodpanda.models.user.User;
+import com.gaussianwonder.foodpanda.util.Log;
+import com.gaussianwonder.foodpanda.util.Loggers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,6 +61,12 @@ public class OrderService {
                 .map(user -> {
                     order.setUser(user);
                     this.orderRepo.save(order);
+                    try {
+                        new Email("New order", "You placed a new order").send();
+                    } catch (MessagingException e) {
+                        Loggers.global.logger.warning("Error while trying to send order email!");
+                        new Log().logger.warning(e.getMessage());
+                    }
                     return order;
                 });
     }

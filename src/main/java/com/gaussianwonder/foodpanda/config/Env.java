@@ -21,7 +21,11 @@ public class Env {
      * @return boolean
      */
     public static boolean isValid() {
-        return exists("JWT_SECRET") && exists("JWT_ISSUER");
+        return exists("JWT_SECRET") &&
+                exists("JWT_ISSUER") &&
+                exists("EMAIL_USER") &&
+                exists("EMAIL_PASSWORD") &&
+                exists("EMAIL_SENDER");
     }
 
     /**
